@@ -14,7 +14,7 @@ class GeodesignHubClient():
 		self.token = token
 		self.securl = url if url else 'https://www.geodesignhub.com/api/v1/'
 
-	def get_all_systems(self):
+	def get_systems(self):
 		''' This method gets all systems for a particular project.  '''
 		securl = self.securl+ 'projects'+ '/' + self.projectid + '/' +'systems' + '/'
 		headers = {'Authorization': 'Token '+ self.token}
@@ -73,7 +73,7 @@ class GeodesignHubClient():
 		
 	def get_synthesis(self, teamid, synthesisid):
 		assert type(teamid) is int, "Team id is not a integer: %r" % teamid
-		securl = self.securl + 'projects'+ '/' + self.projectid + '/cteams/'+ str(teamid) +'/' + str(synthesisid) 
+		securl = self.securl + 'projects'+ '/' + self.projectid + '/cteams/'+ str(teamid) +'/' + str(synthesisid) + '/'
 		headers = {'Authorization': 'Token '+ self.token}
 		r = requests.get(securl, headers=headers)
 		return r
