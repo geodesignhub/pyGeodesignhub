@@ -85,6 +85,13 @@ class GeodesignHubClient():
 		r = requests.get(securl, headers=headers)
 		return r
 
+	def get_synthesis_diagrams(self, teamid, synthesisid):
+		assert type(teamid) is int, "Team id is not a integer: %r" % teamid
+		securl = self.securl + 'projects'+ '/' + self.projectid + '/cteams/'+ str(teamid) +'/' + str(synthesisid) + '/diagrams/'
+		headers = {'Authorization': 'Token '+ self.token}
+		r = requests.get(securl, headers=headers)
+		return r
+
 	def get_changeteam_members(self, teamid):
 		''' Return all the change teams for that project. '''
 		assert type(teamid) is int, "Team id is not a integer: %r" % teamid
