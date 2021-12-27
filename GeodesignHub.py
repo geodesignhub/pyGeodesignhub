@@ -1,5 +1,7 @@
 import requests, json
 
+# Version: 1.2.1
+
 class GeodesignHubClient():
 	'''
 	This a a Python client that make calls to the Geodesignhub API
@@ -19,6 +21,13 @@ class GeodesignHubClient():
 	def get_systems(self):
 		''' This method gets all systems for a particular project.  '''
 		securl = self.securl+ 'projects'+ '/' + self.projectid + '/' +'systems' + '/'
+		headers = {'Authorization': 'Token '+ self.token}
+		r = self.session.get(securl, headers=headers)
+		return r
+
+	def get_single_system(self, system_id):
+		''' This method gets details  a single system for a particular project.  '''
+		securl = self.securl+ 'projects'+ '/' + self.projectid + '/' +'systems' + '/' + str(system_id) +'/'
 		headers = {'Authorization': 'Token '+ self.token}
 		r = self.session.get(securl, headers=headers)
 		return r
@@ -169,7 +178,6 @@ class GeodesignHubClient():
 		headers = {'Authorization': 'Token '+ self.token}
 		r = self.session.post(securl, headers= headers, files = {'geoms.gbf':geoms})
 		return r
-
 
 	def post_gdservice_JSON(self, geometry, jobid):
 		''' Create a self.session object with correct headers and creds. '''
