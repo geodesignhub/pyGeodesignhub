@@ -1,6 +1,6 @@
 import requests, json
 
-# Version: 1.2.6
+# Version: 1.2.7
 
 class GeodesignHubClient():
 	'''
@@ -166,6 +166,14 @@ class GeodesignHubClient():
 		headers = {'Authorization': 'Token '+ self.token, 'content-type': 'application/json'}
 
 		r = self.session.post(securl, headers= headers, data = json.dumps(geoms))
+		return r
+
+	def create_new_project(self, project_creation_payload):
+		''' Create a self.session object with correct headers and creds. '''
+		securl = self.securl+ 'projects/create/'
+		
+		headers = {'Authorization': 'Token '+ self.token, 'content-type': 'application/json'}
+		r = self.session.post(securl, headers= headers, data = json.dumps(project_creation_payload))
 		return r
 
 	def post_as_impact_JSON(self, geoms, sysid:int, username:str=None):
