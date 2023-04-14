@@ -9,7 +9,7 @@ class GeodesignHubClient():
 
 	'''
 
-	def __init__(self, url:str, token:str, project_id:str):
+	def __init__(self, url:str, token:str, project_id:str=None):
 		'''
 		Declare your project id, token and the url (optional). 
 		'''
@@ -209,5 +209,13 @@ class GeodesignHubClient():
 			securl += username +'/'
 		headers = {'Authorization': 'Token '+ self.token}
 		r = self.session.post(securl, headers= headers, files = {'geoms.gbf':geoms})
+		return r
+
+	def create_new_porject(self, project_create_payload):
+		''' Create a self.session object with correct headers and creds. '''
+		securl = self.securl+ 'projects/create/'
+		
+		headers = {'Authorization': 'Token '+ self.token}
+		r = self.session.post(securl, headers= headers, data = json.dumps(project_create_payload))
 		return r
 
