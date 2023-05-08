@@ -1,6 +1,6 @@
 import requests, json
 
-# Version: 1.2.7
+# Version: 1.2.8
 
 class GeodesignHubClient():
 	'''
@@ -203,7 +203,7 @@ class GeodesignHubClient():
 		r = self.session.post(securl, headers= headers, files = {'geoms.gbf':geoms})
 		return r
 
-	def create_new_porject(self, project_create_payload):
+	def create_new_project(self, project_create_payload):
 		''' Create a self.session object with correct headers and creds. '''
 		securl = self.securl+ 'projects/create/'
 		
