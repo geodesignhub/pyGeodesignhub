@@ -208,7 +208,7 @@ class GeodesignHubClient():
 		''' Create a self.session object with correct headers and creds. '''
 		securl = self.securl+ 'projects/create/'
 		
-		headers = {'Authorization': 'Token '+ self.token,'Content-Type': 'application/json'}}
+		headers = {'Authorization': 'Token '+ self.token,'Content-Type': 'application/json'}
 		r = self.session.post(securl, headers= headers, data = json.dumps(project_create_payload))
 		return r
 
