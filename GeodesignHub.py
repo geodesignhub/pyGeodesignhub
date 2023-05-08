@@ -1,6 +1,6 @@
 import requests, json
 
-# Version: 1.2.8
+# Version: 1.2.9
 
 class GeodesignHubClient():
 	'''
@@ -9,7 +9,7 @@ class GeodesignHubClient():
 
 	'''
 
-	def __init__(self, url:str, token:str, project_id:str=None):
+	def __init__(self,token:str, url:str =None, project_id:str=None):
 		'''
 		Declare your project id, token and the url (optional). 
 		'''
