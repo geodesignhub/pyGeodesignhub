@@ -1,6 +1,6 @@
 import requests, json
 
-# Version: 1.2.10
+# Version: 1.2.11
 
 class GeodesignHubClient():
 	'''
@@ -27,6 +27,13 @@ class GeodesignHubClient():
 	def get_all_systems(self):
 		''' This method gets all systems for a particular project.  '''
 		securl = self.securl+ 'projects'+ '/' + self.project_id + '/' +'systems' + '/'
+		headers = {'Authorization': 'Token '+ self.token}
+		r = self.session.get(securl, headers=headers)
+		return r
+	
+	def get_project_center(self):
+		''' This method gets the center as lat,lng for a particular project.  '''
+		securl = self.securl+ 'projects'+ '/' + self.project_id + '/' +'center' + '/'
 		headers = {'Authorization': 'Token '+ self.token}
 		r = self.session.get(securl, headers=headers)
 		return r
