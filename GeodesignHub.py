@@ -1,6 +1,6 @@
 import requests, json
 
-# Version: 1.3
+# Version: 1.3.1
 
 class GeodesignHubClient():
 	'''
@@ -240,6 +240,16 @@ class GeodesignHubClient():
 		
 		''' Create a self.session object with correct headers and creds. '''
 		securl = self.securl+ 'projects/create/'
+		
+		headers = {'Authorization': 'Token '+ self.token,'Content-Type': 'application/json'}
+		r = self.session.post(securl, headers= headers, data = json.dumps(project_create_payload))
+		return r
+
+
+	def create_new_igc_project(self, project_create_payload):
+		
+		''' Create a self.session object with correct headers and creds. '''
+		securl = self.securl+ 'projects/create-igc-project/'
 		
 		headers = {'Authorization': 'Token '+ self.token,'Content-Type': 'application/json'}
 		r = self.session.post(securl, headers= headers, data = json.dumps(project_create_payload))
