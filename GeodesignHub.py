@@ -1,6 +1,6 @@
 import requests, json
 
-# Version: 1.2.11
+# Version: 1.3
 
 class GeodesignHubClient():
 	'''
@@ -174,6 +174,32 @@ class GeodesignHubClient():
 
 		r = self.session.post(securl, headers= headers, data = json.dumps(geoms))
 		return r
+
+	def add_project_tags(self,tag_ids):
+		''' Add tags to a project'''
+		securl = self.securl+ 'projects'+ '/' + self.project_id + '/' +'tags'+'/'		
+		headers = {'Authorization': 'Token '+ self.token, 'Content-Type': 'application/json'}
+		r = self.session.post(securl, headers= headers, data = json.dumps(tag_ids))
+		return r
+
+
+	def get_project_plugins(self):
+		''' Get plugins for a project '''
+		securl = self.securl+ 'projects'+ '/' + self.project_id + '/' +'plugins'+'/'
+		
+		headers = {'Authorization': 'Token '+ self.token, 'Content-Type': 'application/json'}
+		r = self.session.get(securl, headers= headers)
+		return r
+
+	def add_plugins_to_project(self,tag_ids):
+		''' Add tags to a project'''
+		securl = self.securl+ 'projects'+ '/' + self.project_id + '/' +'plugins'+'/'
+		
+		headers = {'Authorization': 'Token '+ self.token, 'Content-Type': 'application/json'}
+
+		r = self.session.post(securl, headers= headers, data = json.dumps(tag_ids))
+		return r
+
 
 	def post_as_impact_JSON(self, geoms, sysid:int, username:str=None):
 		''' Create a self.session object with correct headers and creds. '''
