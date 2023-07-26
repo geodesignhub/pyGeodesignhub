@@ -1,6 +1,6 @@
 import requests, json
 
-# Version: 1.3.1
+# Version: 1.3.2
 
 class GeodesignHubClient():
 	'''
@@ -69,6 +69,13 @@ class GeodesignHubClient():
 	def get_project_bounds(self):
 		''' Returns a string with bounding box for the project study area coordinates in a 'southwest_lng,southwest_lat,northeast_lng,northeast_lat' format. '''
 		securl = self.securl+ 'projects'+ '/' + self.project_id + '/' +'bounds' + '/'
+		headers = {'Authorization': 'Token '+ self.token}
+		r = self.session.get(securl, headers=headers)
+		return r
+
+	def get_project_tags(self):
+		''' Returns a string with bounding box for the project study area coordinates in a 'southwest_lng,southwest_lat,northeast_lng,northeast_lat' format. '''
+		securl = self.securl+ 'projects'+ '/' + self.project_id + '/' +'tags' + '/'
 		headers = {'Authorization': 'Token '+ self.token}
 		r = self.session.get(securl, headers=headers)
 		return r
