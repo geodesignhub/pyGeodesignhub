@@ -74,7 +74,7 @@ class GeodesignHubClient():
 		return r
 
 	def get_project_tags(self):
-		''' Returns a string with bounding box for the project study area coordinates in a 'southwest_lng,southwest_lat,northeast_lng,northeast_lat' format. '''
+		'''Returns a list of tags created in the project. '''
 		securl = self.securl+ 'projects'+ '/' + self.project_id + '/' +'tags' + '/'
 		headers = {'Authorization': 'Token '+ self.token}
 		r = self.session.get(securl, headers=headers)
