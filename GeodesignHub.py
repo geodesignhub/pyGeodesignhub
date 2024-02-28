@@ -1,6 +1,6 @@
 import requests, json
 
-# Version: 1.3.2
+# Version: 1.3.3
 
 class GeodesignHubClient():
 	'''
@@ -89,14 +89,14 @@ class GeodesignHubClient():
 
 	def get_all_details_for_design_team(self, teamid:int):
 		''' Return all the synthesis in the change team.  '''
-		assert type(teamid) is int, "Team id is not a integer: %r" % teamid
+		assert isinstance(teamid, int), "Team id is not a integer: %r" % teamid
 		securl = self.securl+ 'projects'+ '/' + self.project_id + '/' +'cteams' + '/'+ str(teamid) +'/'
 		headers = {'Authorization': 'Token '+ self.token}
 		r = self.session.get(securl, headers=headers)
 		return r
 		
 	def get_single_synthesis(self, teamid:int, synthesisid:str):
-		assert type(teamid) is int, "Team id is not a integer: %r" % teamid
+		assert isinstance(teamid, int), "Team id is not a integer: %r" % teamid
 		assert len(synthesisid)  == 16, "Synthesis : %s" % synthesisid
 		securl = self.securl + 'projects'+ '/' + self.project_id + '/cteams/'+ str(teamid) +'/' + str(synthesisid) + '/'
 		headers = {'Authorization': 'Token '+ self.token}
@@ -104,21 +104,21 @@ class GeodesignHubClient():
 		return r
 
 	def get_single_synthesis_diagrams(self,teamid:int, synthesisid:str):
-		assert type(teamid) is int, "Team id is not a integer: %r" % teamid
+		assert isinstance(teamid, int), "Team id is not a integer: %r" % teamid
 		securl = self.securl + 'projects'+ '/' + self.project_id + '/cteams/'+ str(teamid) +'/' + str(synthesisid) + '/diagrams/'
 		headers = {'Authorization': 'Token '+ self.token}
 		r = self.session.get(securl, headers=headers)
 		return r
 
 	def get_synthesis_timeline(self,teamid:int, synthesisid:str):
-		assert type(teamid) is int, "Team id is not a integer: %r" % teamid
+		assert isinstance(teamid, int), "Team id is not a integer: %r" % teamid
 		securl = self.securl + 'projects'+ '/' + self.project_id + '/cteams/'+ str(teamid) +'/' + str(synthesisid) + '/timeline/'
 		headers = {'Authorization': 'Token '+ self.token}
 		r = self.session.get(securl, headers=headers)
 		return r
 
 	def get_synthesis_diagrams(self,teamid:int, synthesisid:str):
-		assert type(teamid) is int, "Team id is not a integer: %r" % teamid
+		assert isinstance(teamid, int), "Team id is not a integer: %r" % teamid
 		securl = self.securl + 'projects'+ '/' + self.project_id + '/cteams/'+ str(teamid) +'/' + str(synthesisid) + '/diagrams/'
 		headers = {'Authorization': 'Token '+ self.token}
 		r = self.session.get(securl, headers=headers)
@@ -126,15 +126,15 @@ class GeodesignHubClient():
 
 	def get_design_team_members(self, teamid:int):
 		''' Return all the change teams for that project. '''
-		assert type(teamid) is int, "Team id is not a integer: %r" % teamid
+		assert isinstance(teamid, int), "Team id is not a integer: %r" % teamid
 		securl = self.securl+ 'projects'+ '/' + self.project_id + '/' +'cteams' + '/'+ str(teamid) +'/' +'members' + '/'
 		headers = {'Authorization': 'Token '+ self.token}
 		r = self.session.get(securl, headers=headers)
 		return r
 
 	def get_synthesis_system_projects(self, sysid:int, teamid:int, synthesisid:str):
-		assert type(teamid) is int, "Team id is not a integer: %r" % teamid
-		assert type(sysid) is int ,"System id is not a integer %r" % sysid
+		assert isinstance(teamid, int), "Team id is not a integer: %r" % teamid
+		assert isinstance(sysid, int) ,"System id is not a integer %r" % sysid
 		securl = self.securl + 'projects'+ '/' + self.project_id + '/cteams/'+ str(teamid) +'/' + str(synthesisid) + '/systems/' + str(sysid) + '/projects/'
 		headers = {'Authorization': 'Token '+ self.token}
 		r = self.session.get(securl, headers=headers)
@@ -147,10 +147,19 @@ class GeodesignHubClient():
 		postdata = {'geometry':geoms, 'description':description, 'featuretype':featuretype, 'fundingtype':fundingtype}
 		r = self.session.post(securl, headers= headers, data = json.dumps(postdata))
 		return r
+	
+	def post_as_diagram_with_external_geometries(self, flatgeobuf_url, projectorpolicy:str, featuretype:str, description:str, sysid:str, fundingtype:str):
+		''' Create a self.session object with correct headers and creds. '''
+		securl = self.securl+ 'projects'+ '/' + self.project_id + '/' +'systems'+'/'+ str(sysid) + '/'+ 'add/external/' + projectorpolicy +'/'
+		headers = {'Authorization': 'Token '+ self.token, 'Content-Type': 'application/json'}
+		postdata = {'flatgeobuf_url':flatgeobuf_url, 'description':description, 'featuretype':featuretype, 'fundingtype':fundingtype}
+		r = self.session.post(securl, headers= headers, data = json.dumps(postdata))
+		return r
+
 
 	def get_single_diagram(self, diagid:int):
 		''' This method gets the geometry of a diagram given a digram id.  '''
-		assert type(diagid) is int, "diagram id is not an integer: %r" % id
+		assert isinstance(diagid, int), "diagram id is not an integer: %r" % id
 		securl = self.securl+ 'projects'+ '/' + self.project_id + '/' +'diagrams' + '/'+ str(diagid) +'/'
 		headers = {'Authorization': 'Token '+ self.token}
 		r = self.session.get(securl, headers=headers)
@@ -165,21 +174,10 @@ class GeodesignHubClient():
 
 	def get_diagram_changeid(self, diagid:int):
 		''' Returns the a hash of the last modified date, can be used to see if a diagram has changed from the last time it was accessed. '''
-		assert type(diagid) is int, "diagram id is not an integer: %r" % id
+		assert isinstance(diagid, int), "diagram id is not an integer: %r" % id
 		securl = self.securl+ 'projects'+ '/' + self.project_id + '/' +'diagrams' + '/'+ str(diagid) +'/changeid/'
 		headers = {'Authorization': 'Token '+ self.token}
 		r = self.session.get(securl, headers=headers)
-		return r
-
-	def post_as_ealuation_JSON(self, geoms, sysid:int, username:str=None):
-		''' Create a self.session object with correct headers and creds. '''
-		securl = self.securl+ 'projects'+ '/' + self.project_id + '/' +'systems'+'/'+ str(sysid) + '/e/map/json/'
-		if username:
-			securl += username +'/'
-		
-		headers = {'Authorization': 'Token '+ self.token, 'Content-Type': 'application/json'}
-
-		r = self.session.post(securl, headers= headers, data = json.dumps(geoms))
 		return r
 
 	def add_project_tags(self,tag_ids):
@@ -205,42 +203,6 @@ class GeodesignHubClient():
 		headers = {'Authorization': 'Token '+ self.token, 'Content-Type': 'application/json'}
 
 		r = self.session.post(securl, headers= headers, data = json.dumps(tag_ids))
-		return r
-
-
-	def post_as_impact_JSON(self, geoms, sysid:int, username:str=None):
-		''' Create a self.session object with correct headers and creds. '''
-		securl = self.securl+ 'projects'+ '/' + self.project_id + '/' +'systems'+'/'+ str(sysid) + '/i/map/json/'
-		if username:
-			securl += username +'/'
-		headers = {'Authorization': 'Token '+ self.token, 'Content-Type': 'application/json'}
-		r = self.session.post(securl, headers= headers, data = json.dumps(geoms))
-		return r
-
-	def post_as_evaluation_GBF(self, geoms, sysid:int, username:str=None):
-		''' Create a self.session object with correct headers and creds. '''
-		securl = self.securl+ 'projects'+ '/' + self.project_id + '/' +'systems'+'/'+ str(sysid) + '/e/map/gbf/'
-		if username:
-			securl += username +'/'
-		headers = {'Authorization': 'Token '+ self.token}
-		r = self.session.post(securl, headers= headers, files = {'geoms.gbf':geoms})
-		return r
-
-	def post_gdservice_JSON(self, geometry, jobid:str):
-		''' Create a self.session object with correct headers and creds. '''
-		securl = self.securl+ 'gdservices/callback/'
-		headers = {'Authorization': 'Token '+ self.token, 'Content-Type': 'application/json'}
-		data = {"geometry": geometry, "jobid": jobid}
-		r = self.session.post(securl, headers= headers, data = json.dumps(data))
-		return r
-
-	def post_as_impact_GBF(self, geoms, sysid:int, username:str=None):
-		''' Create a self.session object with correct headers and creds. '''
-		securl = self.securl+ 'projects'+ '/' + self.project_id + '/' +'systems'+'/'+ str(sysid) + '/i/map/gbf/'
-		if username:
-			securl += username +'/'
-		headers = {'Authorization': 'Token '+ self.token}
-		r = self.session.post(securl, headers= headers, files = {'geoms.gbf':geoms})
 		return r
 
 	def create_new_project(self, project_create_payload):
