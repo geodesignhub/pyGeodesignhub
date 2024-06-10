@@ -1,7 +1,7 @@
 import requests
 import json
 
-# Version: 1.3.6
+# Version: 1.3.7
 
 
 class GeodesignHubClient:
@@ -114,24 +114,6 @@ class GeodesignHubClient:
         r = self.session.get(sec_url, headers=headers)
         return r
 
-    def get_all_details_for_design_team(self, teamid: int):
-        """Return all the synthesis in the change team."""
-        assert isinstance(teamid, int), "Team id is not a integer: %r" % teamid
-        sec_url = (
-            self.sec_url
-            + "projects"
-            + "/"
-            + self.project_id
-            + "/"
-            + "cteams"
-            + "/"
-            + str(teamid)
-            + "/"
-        )
-        headers = {"Authorization": "Token " + self.token}
-        r = self.session.get(sec_url, headers=headers)
-        return r
-
     def get_single_synthesis(self, teamid: int, synthesisid: str):
         assert isinstance(teamid, int), "Team id is not a integer: %r" % teamid
         assert len(synthesisid) == 16, "Synthesis : %s" % synthesisid
@@ -150,6 +132,23 @@ class GeodesignHubClient:
         r = self.session.get(sec_url, headers=headers)
         return r
 
+    def get_single_synthesis_details(self, teamid: int, synthesisid: str):
+        assert isinstance(teamid, int), "Team id is not a integer: %r" % teamid
+        assert len(synthesisid) == 16, "Synthesis : %s" % synthesisid
+        sec_url = (
+            self.sec_url
+            + "projects"
+            + "/"
+            + self.project_id
+            + "/cteams/"
+            + str(teamid)
+            + "/"
+            + str(synthesisid)
+            + "/details/"
+        )
+        headers = {"Authorization": "Token " + self.token}
+        r = self.session.get(sec_url, headers=headers)
+        return r
     def get_single_synthesis_esri_json(self, teamid: int, synthesisid: str):
         assert isinstance(teamid, int), "Team id is not a integer: %r" % teamid
         assert len(synthesisid) == 16, "Synthesis : %s" % synthesisid
