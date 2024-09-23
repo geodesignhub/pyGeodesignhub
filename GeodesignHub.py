@@ -1,7 +1,7 @@
 import requests
 import json
 
-# Version: 1.3.7
+# Version: 1.3.8
 
 
 class GeodesignHubClient:
@@ -38,7 +38,9 @@ class GeodesignHubClient:
 
     def get_project_center(self):
         """This method gets the center as lat,lng for a particular project."""
-        sec_url = self.sec_url + "projects" + "/" + self.project_id + "/" + "center" + "/"
+        sec_url = (
+            self.sec_url + "projects" + "/" + self.project_id + "/" + "center" + "/"
+        )
         headers = {"Authorization": "Token " + self.token}
         r = self.session.get(sec_url, headers=headers)
         return r
@@ -63,7 +65,13 @@ class GeodesignHubClient:
     def get_constraints(self):
         """This method gets the geometry of constraints for a project if available"""
         sec_url = (
-            self.sec_url + "projects" + "/" + self.project_id + "/" + "constraints" + "/"
+            self.sec_url
+            + "projects"
+            + "/"
+            + self.project_id
+            + "/"
+            + "constraints"
+            + "/"
         )
         headers = {"Authorization": "Token " + self.token}
         r = self.session.get(sec_url, headers=headers)
@@ -95,7 +103,9 @@ class GeodesignHubClient:
 
     def get_project_bounds(self):
         """Returns a string with bounding box for the project study area coordinates in a 'southwest_lng,southwest_lat,northeast_lng,northeast_lat' format."""
-        sec_url = self.sec_url + "projects" + "/" + self.project_id + "/" + "bounds" + "/"
+        sec_url = (
+            self.sec_url + "projects" + "/" + self.project_id + "/" + "bounds" + "/"
+        )
         headers = {"Authorization": "Token " + self.token}
         r = self.session.get(sec_url, headers=headers)
         return r
@@ -109,7 +119,9 @@ class GeodesignHubClient:
 
     def get_all_design_teams(self):
         """Return all the change teams for that project."""
-        sec_url = self.sec_url + "projects" + "/" + self.project_id + "/" + "cteams" + "/"
+        sec_url = (
+            self.sec_url + "projects" + "/" + self.project_id + "/" + "cteams" + "/"
+        )
         headers = {"Authorization": "Token " + self.token}
         r = self.session.get(sec_url, headers=headers)
         return r
@@ -149,6 +161,7 @@ class GeodesignHubClient:
         headers = {"Authorization": "Token " + self.token}
         r = self.session.get(sec_url, headers=headers)
         return r
+
     def get_single_synthesis_esri_json(self, teamid: int, synthesisid: str):
         assert isinstance(teamid, int), "Team id is not a integer: %r" % teamid
         assert len(synthesisid) == 16, "Synthesis : %s" % synthesisid
@@ -294,6 +307,45 @@ class GeodesignHubClient:
             "fundingtype": fundingtype,
         }
         r = self.session.post(sec_url, headers=headers, data=json.dumps(postdata))
+        return r
+
+    def post_as_diagram_with_external_geometries(
+        self,
+        url: str,
+        layer_type: str,
+        projectorpolicy: str,
+        featuretype: str,
+        description: str,
+        sysid: str,
+        fundingtype: str,
+    ):
+        """Create a self.session object with correct headers and creds."""
+        securl = (
+            self.securl
+            + "projects"
+            + "/"
+            + self.project_id
+            + "/"
+            + "systems"
+            + "/"
+            + str(sysid)
+            + "/"
+            + "add/external/"
+            + projectorpolicy
+            + "/"
+        )
+        headers = {
+            "Authorization": "Token " + self.token,
+            "Content-Type": "application/json",
+        }
+        postdata = {
+            "url ": url,
+            "description": description,
+            "layer_type": layer_type,
+            "featuretype": featuretype,
+            "fundingtype": fundingtype,
+        }
+        r = self.session.post(securl, headers=headers, data=json.dumps(postdata))
         return r
 
     def get_single_diagram(self, diagid: int):
