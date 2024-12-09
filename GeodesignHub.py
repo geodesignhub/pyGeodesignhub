@@ -1,7 +1,7 @@
 import requests
 import json
 
-# Version: 1.4.0
+# Version: 1.4.1
 
 
 class GeodesignHubClient:
@@ -299,6 +299,9 @@ class GeodesignHubClient:
         description: str,
         sysid: str,
         fundingtype: str,
+        cost: int,
+        costtype: str,
+        additional_metadata: dict = None,
     ):
         """Create a self.session object with correct headers and creds."""
         securl = (
@@ -315,6 +318,7 @@ class GeodesignHubClient:
             + projectorpolicy
             + "/"
         )
+        additional_metadata = additional_metadata if additional_metadata else {}
 
         postdata = {
             "url ": url,
@@ -322,6 +326,9 @@ class GeodesignHubClient:
             "layer_type": layer_type,
             "featuretype": featuretype,
             "fundingtype": fundingtype,
+            "cost": cost,
+            "costtype": costtype,
+            "additional_metadata": additional_metadata,
         }
         r = self.session.post(securl, data=json.dumps(postdata))
         return r
@@ -414,7 +421,9 @@ class GeodesignHubClient:
 
     def create_diagram_groups(self, diagram_groups_payload):
         """Create multiple diagram groups"""
-        sec_url = self.sec_url + "projects" + "/" + self.project_id + "/diagrams/groups/"
+        sec_url = (
+            self.sec_url + "projects" + "/" + self.project_id + "/diagrams/groups/"
+        )
         r = self.session.post(sec_url, data=json.dumps(diagram_groups_payload))
         return r
 
