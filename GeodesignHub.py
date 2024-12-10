@@ -1,7 +1,7 @@
 import requests
 import json
 
-# Version: 1.4.1
+# Version: 1.4.2
 
 
 class GeodesignHubClient:
@@ -22,7 +22,7 @@ class GeodesignHubClient:
         headers = {"Authorization": "Token " + self.token}
         self.session.headers = headers
 
-    def get_project_id(self):
+    def get_project_details(self):
         """This method gets all systems for a particular project."""
         sec_url = self.sec_url + "projects" + "/" + self.project_id + "/"
         r = self.session.get(sec_url)
