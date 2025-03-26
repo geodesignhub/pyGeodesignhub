@@ -1,18 +1,13 @@
 [project]
 name = "pygeodesignhub"
+
 version = "1.4.2"
 description = "A Python client that makes calls to the Geodesignhub API"
 readme = "README.md"
 requires-python = ">=3.9"
+urls = { "Source Code" = "https://github.com/geodesignhub/pygeodesignhub" }
 license = { file = "LICENSE" }
-
-dependencies = [
-    "requests>=2.32.3",
-]
+dependencies = ["requests>=2.32.3"]
 
 [dependency-groups]
-dev = [
-    "mypy>=1.15.0",
-    "types-requests>=2.32.0.20250306",
-]
-
+dev = ["mypy>=1.15.0", "types-requests>=2.32.0.20250306"]
