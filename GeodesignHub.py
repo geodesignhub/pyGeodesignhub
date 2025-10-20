@@ -4,7 +4,7 @@ from urllib.parse import urljoin, urlparse
 from os.path import join
 from typing import Optional, Dict, Any
 
-# Version: 1.5.1
+# Version: 1.5.2
 
 
 class GeodesignHubClient:
@@ -142,6 +142,12 @@ class GeodesignHubClient:
         assert isinstance(teamid, int), f"Team id is not an integer: {teamid}"
         return self._request(
             "GET", join("projects", self.project_id, "cteams", str(teamid), "members")
+        )
+
+    def get_all_details_for_design_team(self, teamid: int):
+        assert isinstance(teamid, int), f"Team id is not an integer: {teamid}"
+        return self._request(
+            "GET", join("projects", self.project_id, "cteams", str(teamid))
         )
 
     def get_synthesis_system_projects(self, sysid: int, teamid: int, synthesisid: str):
