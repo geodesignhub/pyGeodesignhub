@@ -4,7 +4,8 @@ from urllib.parse import urljoin, urlparse
 from os.path import join
 from typing import Optional, Dict, Any
 
-# Version: 1.5.0
+# Version: 1.5.1
+
 
 class GeodesignHubClient:
     def __init__(self, token: str, url: Optional[str] = None, project_id: str = ""):
@@ -50,6 +51,11 @@ class GeodesignHubClient:
 
     def get_project_bounds(self):
         return self._request("GET", join("projects", self.project_id, "bounds"))
+
+    def get_project_negotiation_logs(self):
+        return self._request(
+            "GET", join("projects", self.project_id, "negotiation_logs")
+        )
 
     def get_project_tags(self):
         return self._request("GET", join("projects", self.project_id, "tags"))
