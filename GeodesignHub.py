@@ -4,7 +4,7 @@ from urllib.parse import urljoin, urlparse
 from os.path import join
 from typing import Optional, Dict, Any
 
-# Version: 1.5.2
+# Version: 1.5.3
 
 
 class GeodesignHubClient:
@@ -17,7 +17,8 @@ class GeodesignHubClient:
         self.session.headers.update({"Authorization": f"Token {self.token}"})
 
     def _build_url(self, *parts):
-        return urljoin(self.sec_url.geturl(), join(*parts))
+        url = urljoin(self.sec_url.geturl(), join(*parts))
+        return url if url.endswith('/') else url + '/'
 
     @wraps(requests.Session.request)
     def _request(self, method, url, *args, **kwargs):
@@ -205,7 +206,7 @@ class GeodesignHubClient:
         sysid: str,
         fundingtype: str,
         cost: int,
-        costtype: str,
+        cost_type: str,
         additional_metadata: Optional[Dict[Any, Any]] = None,
     ):
         postdata = {
@@ -215,7 +216,7 @@ class GeodesignHubClient:
             "featuretype": featuretype,
             "fundingtype": fundingtype,
             "cost": cost,
-            "costtype": costtype,
+            "cost_type": cost_type,
             "additional_metadata": additional_metadata or {},
         }
         return self._request(
